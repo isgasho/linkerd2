@@ -26,7 +26,11 @@ type Report struct {
 func newReport(conf *ResourceConfig) Report {
 	var name string
 	if m := conf.podMeta.ObjectMeta; m != nil {
-		name = m.Name
+		if m.Name != "" {
+			name = m.Name
+		} else if m.GenerateName != "" {
+			name = m.GenerateName
+		}
 	}
 	return Report{
 		Kind: strings.ToLower(conf.meta.Kind),
