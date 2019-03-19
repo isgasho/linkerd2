@@ -2,6 +2,7 @@ package injector
 
 import (
 	"fmt"
+	"path/filepath"
 	"testing"
 
 	"github.com/linkerd/linkerd2/controller/gen/config"
@@ -15,7 +16,6 @@ import (
 )
 
 var (
-	factory      *fake.Factory
 	globalConfig = &config.Global{
 		LinkerdNamespace: "linkerd",
 		CniEnabled:       false,
@@ -48,6 +48,7 @@ func confNsDisabled() *inject.ResourceConfig {
 }
 
 func TestGetPatch(t *testing.T) {
+	factory := fake.NewFactory(filepath.Join("fake", "data"))
 	nsEnabled, err := factory.Namespace("namespace-inject-enabled.yaml")
 	if err != nil {
 		t.Fatalf("Unexpected error: %s", err)
